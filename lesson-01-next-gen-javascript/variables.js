@@ -56,3 +56,6 @@ console.log("Hằng số PI là:", PI);
 
 // Best practices
 // Try to use  const as much as possible
+let cart = []; // => sync local storage
+//=> /index.html
+//=> /cart.html // => get from local storage

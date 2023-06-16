@@ -24,3 +24,12 @@ console.log("nums:", nums);
 console.log(doubleNumbers);
 console.log(oddNumbers);
 console.log(evenNumbers);
+
+function test() {
+  let a = 0;
+  for (let i = 0; i < 10; i++) {
+    a++;
+  }
+  console.log(a);
+}
+test();
