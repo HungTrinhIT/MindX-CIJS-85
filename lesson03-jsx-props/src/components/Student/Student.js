@@ -1,7 +1,7 @@
 import "./Student.css";
 
 const Student = (props) => {
-  const { studentName, classCode, math, phy, chem } = props || {};
+  const { studentName, classCode, math, phy, chem, children } = props || {};
   return (
     <div className="student">
       <h6>{studentName}</h6>
@@ -23,6 +23,7 @@ const Student = (props) => {
           {chem}
         </li>
       </ul>
+      {children}
     </div>
   );
 };

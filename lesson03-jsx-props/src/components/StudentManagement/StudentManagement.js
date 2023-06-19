@@ -3,8 +3,18 @@ import "./StudentManagement.css";
 
 const StudentManagement = () => {
   return (
-    <div>
-      <h1>Dự án quản lý học sinh</h1>
+    <div className="container">
+      <h1
+        style={{
+          textAlign: "center",
+        }}
+      >
+        Dự án quản lý học sinh
+      </h1>
+      <div className="student-controller">
+        <button>Thêm học sinh mới</button>
+        <button>Sắp xếp</button>
+      </div>
       <div className="student-list">
         <Student
           studentName="Nguyễn Văn A"
@@ -12,7 +22,10 @@ const StudentManagement = () => {
           math={10}
           phy={8}
           chem={9}
-        />
+        >
+          <button>Report</button>
+          <button>Like</button>
+        </Student>
         <Student
           studentName="Nguyễn Văn B"
           classCode="12CH"
@@ -27,6 +40,14 @@ const StudentManagement = () => {
           phy={1}
           chem={5}
         />
+        <Student
+          studentName="Phạm Văn D"
+          classCode="12A"
+          math={10}
+          phy={1}
+          chem={5}
+        />
+
         <Student
           studentName="Phạm Văn D"
           classCode="12A"
