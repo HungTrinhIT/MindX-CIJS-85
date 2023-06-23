@@ -12,9 +12,9 @@ function App() {
   return (
     <div>
       {/* <ClassComponent /> */}
-      {/* <StudentManagement /> */}
-      <Counter />
-      <UserComponent />
+      <StudentManagement />
+      {/* <Counter /> */}
+      {/* <UserComponent /> */}
     </div>
   );
 }
