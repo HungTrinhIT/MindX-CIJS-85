@@ -1,11 +1,8 @@
 import TodoItem from "./TodoItem";
-const TodoList = () => {
-  return (
-    <div>
-      <TodoItem title="Learn React" isCompleted={true} />
-      <TodoItem title="Đi ăn cơm" />
-      <TodoItem title="Đi về" />
-    </div>
-  );
+const TodoList = (props) => {
+  const { data = [] } = props;
+
+  const listTodoElements = data && data.map((todo) => <TodoItem {...todo} />);
+  return <div>{listTodoElements}</div>;
 };
 export default TodoList;

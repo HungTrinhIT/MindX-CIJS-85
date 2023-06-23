@@ -1,7 +1,19 @@
 const TodoItem = (props) => {
-  console.log("Props in TodoItem:", props);
-
+  const { isCompleted, title } = props;
   // JSX
-  return <h1 className="todo">{props.title}</h1>;
+  return (
+    <div
+      style={{
+        padding: "10px",
+        background: "#fcfcfc",
+        marginBottom: "16px",
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
+      <input type="checkbox" checked={isCompleted} />
+      <p>{title}</p>
+    </div>
+  );
 };
 export default TodoItem;
