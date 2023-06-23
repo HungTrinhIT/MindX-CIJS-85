@@ -26,7 +26,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className="root">
       <AddNewTodo onAddTodo={onAddNewTodoHandler} />
       <TodoList data={todoList} />
     </div>

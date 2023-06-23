@@ -1,17 +1,30 @@
+import { useState } from "react";
+
 const AddNewTodo = (props) => {
-  const onAddTodoHandler = () => {
+  const [todoTitle, setTodoTitle] = useState("");
+
+  const onChangeHandler = (e) => {
+    setTodoTitle(e.target.value);
+  };
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+
+    // Chuẩn bị newTodo data
     const newTodo = {
+      title: todoTitle,
       isCompleted: false,
-      title: "Test todo",
     };
 
     props.onAddTodo(newTodo);
+    setTodoTitle("");
   };
+
   return (
-    <div>
-      <input type="text" />
-      <button onClick={onAddTodoHandler}>Add new todo</button>
-    </div>
+    <form className="add-todo" onSubmit={onSubmitHandler}>
+      <input type="text" value={todoTitle} onChange={onChangeHandler} />
+      <button type="submit">Add new todo</button>
+    </form>
   );
 };
 export default AddNewTodo;

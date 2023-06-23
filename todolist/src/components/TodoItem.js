@@ -5,9 +5,10 @@ const TodoItem = (props) => {
     <div
       style={{
         padding: "10px",
-        background: "#fcfcfc",
-        marginBottom: "16px",
+        background: "rgb(213, 213, 213)",
+        marginBottom: "8px",
         display: "flex",
+        borderRadius: "8px",
         alignItems: "center",
       }}
     >
