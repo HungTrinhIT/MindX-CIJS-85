@@ -1,0 +1,19 @@
+.student-list {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.container {
+    max-width: 1128px;
+    margin: 0 auto;
+    padding: 0 96px;
+}
+
+.student-controller {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+    margin: 24px 0 20px;
+}
