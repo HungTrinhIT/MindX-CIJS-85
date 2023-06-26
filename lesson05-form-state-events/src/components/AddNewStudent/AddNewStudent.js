@@ -1,13 +1,15 @@
 import { useState } from "react";
 
+const initialState = {
+  studentName: "",
+  classCode: "",
+  math: "",
+  phy: "",
+  chem: "",
+};
+
 const AddNewStudent = (props) => {
-  const [student, setStudent] = useState({
-    studentName: "",
-    classCode: "",
-    math: null,
-    phy: null,
-    chem: null,
-  });
+  const [student, setStudent] = useState(initialState);
 
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
@@ -19,8 +21,16 @@ const AddNewStudent = (props) => {
   };
 
   const onSubmitHandler = (event) => {
+    // Ngăn chặn hành động submit form của mặc định
     event.preventDefault();
+
+    // Event up: Notify cái function ở component cha biết được
+    // button con vừa được click
     props.addNewStudent(student);
+
+    // Sau khi thêm xong dữ liệu
+    // Clear form
+    setStudent({ ...initialState });
   };
 
   return (

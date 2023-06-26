@@ -1,10 +1,12 @@
 import Student from "../Student/Student";
 
 const StudentTable = (props) => {
-  const { studentList } = props;
+  const { studentList, deleteStudent } = props;
 
-  const tableBody = studentList.map((student) => {
-    return <Student student={student} />;
+  const tableBody = studentList.map((student, index) => {
+    return (
+      <Student student={student} order={index} deleteStudent={deleteStudent} />
+    );
   });
   return (
     <div className="student-list">
@@ -18,6 +20,7 @@ const StudentTable = (props) => {
             <th scope="col">Điểm lý</th>
             <th scope="col">Điểm hoá</th>
             <th scope="col">GPA</th>
+            <th scope="col">...</th>
           </tr>
         </thead>
         <tbody>{tableBody}</tbody>

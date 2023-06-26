@@ -1,9 +1,8 @@
 import { useState } from "react";
-import Student from "../Student/Student";
+import { v4 as uuidv4 } from "uuid";
 import "./StudentManagement.css";
 import StudentTable from "../StudentTable/StudentTable";
 import AddNewStudent from "../AddNewStudent/AddNewStudent";
-//  Server => [  student, student ,...] => [<Student/>, <Student/>, <Student/>] => JSX => UI
 
 const studentMockData = [
   {
@@ -12,6 +11,7 @@ const studentMockData = [
     math: 10,
     phy: 8,
     chem: 9,
+    id: "46852d05-8052-4e4b-a0ef-ec4218bd5db5",
   },
   {
     studentName: "Lee Chong Wei",
@@ -19,6 +19,7 @@ const studentMockData = [
     math: 5,
     phy: 6,
     chem: 9,
+    id: "2fed325a-7d4c-48c6-8527-98e3c958d1d4",
   },
   {
     studentName: "CR7",
@@ -26,6 +27,7 @@ const studentMockData = [
     math: 5,
     phy: 10,
     chem: 9,
+    id: "c93f2e07-5d18-4509-978d-af1dcb37804e",
   },
   {
     studentName: "Lin Dan",
@@ -33,6 +35,7 @@ const studentMockData = [
     math: 10,
     phy: 7,
     chem: 7,
+    id: "56fd0096-df35-4364-90f4-4a47dd29cfde",
   },
 ];
 
@@ -40,7 +43,18 @@ const StudentManagement = () => {
   const [studentList, setStudentList] = useState(studentMockData);
 
   const onAddStudentHandler = (student) => {
-    setStudentList([...studentList, student]);
+    const newStudent = {
+      ...student,
+      id: uuidv4(),
+    };
+    setStudentList([...studentList, newStudent]);
+  };
+
+  const onDeleteStudentHandler = (id) => {
+    const filteredStudentList = studentList.filter(
+      (student) => student.id !== id
+    );
+    setStudentList(filteredStudentList);
   };
 
   return (
@@ -53,7 +67,10 @@ const StudentManagement = () => {
         </button>
         <button className="btn btn-success">Sắp xếp</button>
       </div>
-      <StudentTable studentList={studentList} />
+      <StudentTable
+        studentList={studentList}
+        deleteStudent={onDeleteStudentHandler}
+      />
     </div>
   );
 };
@@ -91,12 +108,11 @@ export default StudentManagement;
   - Tìm hiểu trước:
     + Form trong ReactJS
     + Render tất cả những học sinh (DONE)
-    + Thêm học sinh (với form) 
-    + Chức năng Delete học sinh
+    + Thêm học sinh (với form) (DONE)
+    + Chức năng Delete học sinh (DONE
     + Sắp xếp học sinh theo GPA Tăng dần
     + Sắp xếp học sinh theo GPA Giảm dần
     + Sắp xếp học sinh theo A -> Z
     + Sắp xếp học sinh theo Z -> A
-
-
+    + Cập nhật học sinh (làm sau khi học bài useEffect)
 */
