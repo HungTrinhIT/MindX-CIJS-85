@@ -1,9 +1,9 @@
-import React from "react";
+import "./IconWrapper.css";
 
-const IconWrapper = ({ children, bg = "bg-danger" }) => {
+const IconWrapper = ({ children, bg = "bg-danger", ...rest }) => {
   return (
     <div
-      className={`${bg} rounded-circle`}
+      className={`root ${bg} rounded-circle`}
       style={{
         width: "30px",
         height: "30px",
@@ -11,6 +11,7 @@ const IconWrapper = ({ children, bg = "bg-danger" }) => {
         lineHeight: "30px",
         cursor: "pointer",
       }}
+      {...rest}
     >
       {children}
     </div>

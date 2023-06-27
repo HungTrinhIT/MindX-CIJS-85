@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-
+import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import AddNewStudent from "../AddNewStudent/AddNewStudent";
 import StudentTable from "../StudentTable/StudentTable";
 import { studentMockData } from "../../utils/mockData";
+import { calcStudentGPA } from "../../utils/helpers";
 
 import "./StudentManagement.css";
-import { calcStudentGPA } from "../../utils/helpers";
 
 const FILTER_OPTIONS = {
   DEFAULT: 0,
@@ -16,52 +16,66 @@ const FILTER_OPTIONS = {
 };
 
 const StudentManagement = () => {
+  // State
   const [studentList, setStudentList] = useState(studentMockData || []);
   const [selectedFilter, setSelectedFilter] = useState(FILTER_OPTIONS.DEFAULT);
 
-  const onAddStudentHandler = () => {
-    const newStudent = {
-      studentName: "New Student",
-      classCode: "Football",
-      math: 10,
-      phy: 10,
-      chem: 10,
-    };
-
-    setStudentList([...studentList, newStudent]);
-  };
-
+  // Functions
   const handleChangeFilterOption = (e) => setSelectedFilter(e.target.value);
 
-  const getStudentListByFilterOption = () => {
+  // Sắp xếp danh sách học sinh
+  // Dựa vào filter option
+  const sortStudentList = () => {
+    const sortingStudentList = [...studentList];
     switch (+selectedFilter) {
       case FILTER_OPTIONS.GPA_ASCENDING:
         // 10 5 7 6
-        // 5 10 
-        return studentList.sort(
-          (a, b) => calcStudentGPA(a) > calcStudentGPA(b)
+        // 5 10
+        sortingStudentList.sort(
+          (a, b) => calcStudentGPA(a) - calcStudentGPA(b)
         );
+        break;
       case FILTER_OPTIONS.GPA_DESCENDING:
-        return studentList.sort(
-          (a, b) => calcStudentGPA(b) > calcStudentGPA(a)
+        sortingStudentList.sort(
+          (a, b) => calcStudentGPA(b) - calcStudentGPA(a)
         );
-      case FILTER_OPTIONS.DEFAULT:
-        return studentList;
+        break;
       case FILTER_OPTIONS.Z_TO_A:
-        return studentList.sort((a, b) => {
+        sortingStudentList.sort((a, b) => {
           return b.studentName.localeCompare(a.studentName);
         });
+        break;
       case FILTER_OPTIONS.A_TO_Z:
-        return studentList.sort((a, b) => {
+        sortingStudentList.sort((a, b) => {
           // c a b e
           //  refString.localCompare(compareStr)
           // return (-) if  ref đứng trước com
           // return (+) if ref đứng sau
           return a.studentName.localeCompare(b.studentName);
         });
+        break;
+      case FILTER_OPTIONS.DEFAULT:
       default:
-        return studentList;
+        return sortingStudentList;
     }
+
+    return sortingStudentList;
+  };
+
+  // Thêm mới học sinh
+  const onAddStudentHandler = (student) => {
+    const newStudent = {
+      ...student,
+      id: uuidv4(),
+    };
+    setStudentList([...studentList, newStudent]);
+  };
+
+  const onDeleteStudentHandler = (id) => {
+    const filteredStudentList = studentList.filter(
+      (student) => student.id !== id
+    );
+    setStudentList(filteredStudentList);
   };
 
   return (
@@ -70,7 +84,6 @@ const StudentManagement = () => {
       <div className="d-flex align-items-center justify-content-end gap-3 mb-5">
         <button
           className="btn btn-primary"
-          onClick={onAddStudentHandler}
           data-bs-toggle="modal"
           data-bs-target="#addStudentForm"
         >
@@ -83,14 +96,17 @@ const StudentManagement = () => {
           value={selectedFilter}
         >
           <option value={FILTER_OPTIONS.DEFAULT}>Sắp xếp</option>
-          <option value={FILTER_OPTIONS.GPA_DESCENDING}>GPA giảm dần</option>
           <option value={FILTER_OPTIONS.GPA_ASCENDING}>GPA tăng dần</option>
+          <option value={FILTER_OPTIONS.GPA_DESCENDING}>GPA giảm dần</option>
           <option value={FILTER_OPTIONS.A_TO_Z}>A -&gt; Z</option>
           <option value={FILTER_OPTIONS.Z_TO_A}>Z -&gt; A</option>
         </select>
       </div>
-      <StudentTable studentList={getStudentListByFilterOption()} />
-      <AddNewStudent />
+      <StudentTable
+        studentList={sortStudentList()}
+        deleteStudent={onDeleteStudentHandler}
+      />
+      <AddNewStudent addNewStudent={onAddStudentHandler} />
     </div>
   );
 };
