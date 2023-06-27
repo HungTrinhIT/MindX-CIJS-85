@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import AddNewStudent from "../AddNewStudent/AddNewStudent";
 import StudentTable from "../StudentTable/StudentTable";
@@ -19,13 +19,14 @@ const StudentManagement = () => {
   // State
   const [studentList, setStudentList] = useState(studentMockData || []);
   const [selectedFilter, setSelectedFilter] = useState(FILTER_OPTIONS.DEFAULT);
+  const [editingStudent, setEditingStudent] = useState({});
 
   // Functions
   const handleChangeFilterOption = (e) => setSelectedFilter(e.target.value);
 
   // Sắp xếp danh sách học sinh
   // Dựa vào filter option
-  const sortStudentList = () => {
+  const sortStudentList = useCallback(() => {
     const sortingStudentList = [...studentList];
     switch (+selectedFilter) {
       case FILTER_OPTIONS.GPA_ASCENDING:
@@ -60,7 +61,7 @@ const StudentManagement = () => {
     }
 
     return sortingStudentList;
-  };
+  }, [selectedFilter, studentList]);
 
   // Thêm mới học sinh
   const onAddStudentHandler = (student) => {
@@ -76,6 +77,27 @@ const StudentManagement = () => {
       (student) => student.id !== id
     );
     setStudentList(filteredStudentList);
+  };
+
+  // Update student
+  const onOpenUpdateStudentModal = (studentId) => {
+    const existingStudent = studentList.find(
+      (student) => student.id === studentId
+    );
+
+    if (!existingStudent) return;
+
+    setEditingStudent(existingStudent);
+  };
+
+  const onUpdateStudent = (updatingStudent) => {
+    setStudentList(
+      studentList.map((student) => {
+        if (student.id !== updatingStudent.id) return student;
+        return updatingStudent;
+      })
+    );
+    setEditingStudent({});
   };
 
   return (
@@ -105,8 +127,13 @@ const StudentManagement = () => {
       <StudentTable
         studentList={sortStudentList()}
         deleteStudent={onDeleteStudentHandler}
+        openUpdateStudentModal={onOpenUpdateStudentModal}
       />
-      <AddNewStudent addNewStudent={onAddStudentHandler} />
+      <AddNewStudent
+        addNewStudent={onAddStudentHandler}
+        initialValues={editingStudent}
+        updateStudent={onUpdateStudent}
+      />
     </div>
   );
 };

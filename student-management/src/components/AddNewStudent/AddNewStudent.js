@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const initialState = {
   studentName: "",
@@ -8,9 +8,30 @@ const initialState = {
   chem: "",
 };
 
+const FORM_MODE = {
+  CREATE: "create",
+  UPDATE: "update",
+};
+
 const AddNewStudent = (props) => {
+  const { initialValues, addNewStudent, updateStudent } = props;
+
   const [student, setStudent] = useState(initialState);
+  const [formMode, setFormMode] = useState(FORM_MODE.CREATE);
   const closeButtonRef = useRef(null);
+
+  useEffect(() => {
+    const hasInitialValues =
+      initialValues.studentName &&
+      initialValues.classCode &&
+      initialValues.math &&
+      initialValues.phy ** initialValues.chem;
+
+    if (hasInitialValues) {
+      setStudent(initialValues);
+      setFormMode(FORM_MODE.UPDATE);
+    }
+  }, [initialValues]);
 
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
@@ -27,12 +48,18 @@ const AddNewStudent = (props) => {
 
     // Event up: Notify cái function ở component cha biết được
     // button con vừa được click
-    props.addNewStudent(student);
+
+    if (formMode === FORM_MODE.CREATE) {
+      addNewStudent(student);
+    } else {
+      updateStudent(student);
+    }
 
     // Sau khi thêm xong dữ liệu
     // Clear form về trạng thái ban đầu
     setStudent({ ...initialState });
     closeButtonRef.current.click();
+    setFormMode(FORM_MODE.CREATE);
   };
 
   // Một trong các trường dữ liệu chưa được điền
@@ -56,7 +83,9 @@ const AddNewStudent = (props) => {
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">
-              Add new student
+              {formMode === FORM_MODE.CREATE
+                ? "Add new student"
+                : "Update student"}
             </h5>
             <button
               type="button"
@@ -141,7 +170,9 @@ const AddNewStudent = (props) => {
                   type="submit"
                   disabled={isDisabledSubmitBtn}
                 >
-                  Thêm mới học sinh
+                  {formMode === FORM_MODE.CREATE
+                    ? "Thêm mới học sinh"
+                    : "Cập nhật học sinh"}
                 </button>
               </div>
             </form>

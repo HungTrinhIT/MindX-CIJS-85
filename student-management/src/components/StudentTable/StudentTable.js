@@ -1,7 +1,7 @@
 import Student from "../Student/Student";
 
 const StudentTable = (props) => {
-  const { studentList = [], deleteStudent } = props;
+  const { studentList = [], deleteStudent, openUpdateStudentModal } = props;
 
   const listStudentTableRow =
     studentList &&
@@ -12,11 +12,15 @@ const StudentTable = (props) => {
           student={student}
           order={index}
           deleteStudent={deleteStudent}
+          openUpdateStudentModal={openUpdateStudentModal}
         />
       );
     });
   return (
     <div className="student-list">
+      <p>
+        <strong>Tổng số:</strong> {studentList.length} học sinh
+      </p>
       <table class="table table-striped table-hover p-2 shadow">
         <thead>
           <tr>

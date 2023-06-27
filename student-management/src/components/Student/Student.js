@@ -3,7 +3,7 @@ import IconWrapper from "../IconWrapper/IconWrapper";
 import "./Student.css";
 import { AiOutlineDelete, AiFillEdit } from "react-icons/ai";
 const Student = (props) => {
-  const { order, student, deleteStudent } = props;
+  const { order, student, deleteStudent, openUpdateStudentModal } = props;
   const { studentName, classCode, math, phy, chem, id } = student || {};
   const gpa = calcStudentGPA(student);
   const studentTag = studentTagByGPA(student);
@@ -23,7 +23,12 @@ const Student = (props) => {
 
       <td>
         <div className="d-flex align-items-center gap-2">
-          <IconWrapper bg="bg-secondary">
+          <IconWrapper
+            bg="bg-secondary"
+            onClick={() => openUpdateStudentModal(id)}
+            data-bs-toggle="modal"
+            data-bs-target="#addStudentForm"
+          >
             <AiFillEdit color="white" />
           </IconWrapper>
           <IconWrapper onClick={() => deleteStudent(id)}>
