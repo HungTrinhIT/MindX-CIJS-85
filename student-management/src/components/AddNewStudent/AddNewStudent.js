@@ -25,7 +25,8 @@ const AddNewStudent = (props) => {
       initialValues.studentName &&
       initialValues.classCode &&
       initialValues.math &&
-      initialValues.phy ** initialValues.chem;
+      initialValues.phy &&
+      initialValues.chem;
 
     if (hasInitialValues) {
       setStudent(initialValues);
