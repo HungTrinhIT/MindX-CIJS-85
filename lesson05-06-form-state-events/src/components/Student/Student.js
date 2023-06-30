@@ -14,10 +14,11 @@ const Student = (props) => {
       <td>{chem}</td>
       <td>{gpa}</td>
       <td>
-        <div className="d-flex align-items-center">
+        <div className="d-flex align-items-center gap-2">
           <button className="btn btn-danger" onClick={() => deleteStudent(id)}>
-            Delete
+            Xoá
           </button>
+          <button className="btn btn-success">Cập nhật</button>
         </div>
       </td>
     </tr>

@@ -4,43 +4,13 @@ import "./StudentManagement.css";
 import StudentTable from "../StudentTable/StudentTable";
 import AddNewStudent from "../AddNewStudent/AddNewStudent";
 
-const studentMockData = [
-  {
-    studentName: "Nguyễn Văn A",
-    classCode: "12CTin",
-    math: 10,
-    phy: 8,
-    chem: 9,
-    id: "46852d05-8052-4e4b-a0ef-ec4218bd5db5",
-  },
-  {
-    studentName: "Lee Chong Wei",
-    classCode: "12B",
-    math: 5,
-    phy: 6,
-    chem: 9,
-    id: "2fed325a-7d4c-48c6-8527-98e3c958d1d4",
-  },
-  {
-    studentName: "CR7",
-    classCode: "12ABCD",
-    math: 5,
-    phy: 10,
-    chem: 9,
-    id: "c93f2e07-5d18-4509-978d-af1dcb37804e",
-  },
-  {
-    studentName: "Lin Dan",
-    classCode: "12A",
-    math: 10,
-    phy: 7,
-    chem: 7,
-    id: "56fd0096-df35-4364-90f4-4a47dd29cfde",
-  },
-];
+import "./StudentManagement.css";
+import { studentMockData } from "../../utils/mockData";
+import { FILTER_OPTIONS } from "../../utils/constants";
 
 const StudentManagement = () => {
   const [studentList, setStudentList] = useState(studentMockData);
+  const [sortOption, setSortOption] = useState("default");
 
   const onAddStudentHandler = (student) => {
     const newStudent = {
@@ -57,18 +27,80 @@ const StudentManagement = () => {
     setStudentList(filteredStudentList);
   };
 
+  const onSortOptionsChange = (e) => {
+    setSortOption(e.target.value);
+  };
+
+  const calculateStudentGPA = (student) =>
+    (
+      (Number(student.math) + Number(student.chem) + Number(student.phy)) /
+      3
+    ).toFixed(1);
+
+  // state: sortOption
+  // state: studentList
+  // => Mảng student đã được sắp xếp dựa vào sortOption
+  const sortStudentList = (studentList, sortOption) => {
+    let sortedStudentList = [...studentList];
+    switch (sortOption) {
+      case FILTER_OPTIONS.GPA_ASCENDING: {
+        sortedStudentList = studentList.sort(
+          (studentA, studentB) =>
+            calculateStudentGPA(studentA) - calculateStudentGPA(studentB)
+        );
+        break;
+      }
+      case FILTER_OPTIONS.GPA_DESCENDING: {
+        sortedStudentList = studentList.sort(
+          (studentA, studentB) =>
+            calculateStudentGPA(studentB) - calculateStudentGPA(studentA)
+        );
+        break;
+      }
+      case FILTER_OPTIONS.A_TO_Z:
+        sortedStudentList = studentList.sort((studentA, studentB) =>
+          studentA.studentName
+            .toLowerCase()
+            .localeCompare(studentB.studentName.toLowerCase())
+        );
+        break;
+      case FILTER_OPTIONS.Z_TO_A:
+        sortedStudentList = studentList.sort((studentA, studentB) =>
+          studentB.studentName
+            .toLowerCase()
+            .localeCompare(studentA.studentName.toLowerCase())
+        );
+        break;
+
+      case FILTER_OPTIONS.DEFAULT:
+      default:
+        return studentList;
+    }
+
+    return sortedStudentList;
+  };
+
+  const sortedStudentValues = sortStudentList(studentList, sortOption);
+
   return (
     <div className="container">
       <h1 className="text-center">Dự án quản lý học sinh</h1>
       <AddNewStudent addNewStudent={onAddStudentHandler} />
       <div className="d-flex align-items-center justify-content-end gap-2 my-3">
-        <button className="btn btn-primary" onClick={onAddStudentHandler}>
-          Thêm học sinh mới
-        </button>
-        <button className="btn btn-success">Sắp xếp</button>
+        <select
+          className="form-select filter-options"
+          onChange={onSortOptionsChange}
+          value={sortOption}
+        >
+          <option value={FILTER_OPTIONS.DEFAULT}>Sắp xếp</option>
+          <option value={FILTER_OPTIONS.GPA_ASCENDING}>GPA tăng dần</option>
+          <option value={FILTER_OPTIONS.GPA_DESCENDING}>GPA giảm dần</option>
+          <option value={FILTER_OPTIONS.A_TO_Z}>Theo: A {"->"} Z</option>
+          <option value={FILTER_OPTIONS.Z_TO_A}>Theo: Z -{">"} A</option>
+        </select>
       </div>
       <StudentTable
-        studentList={studentList}
+        studentList={sortedStudentValues}
         deleteStudent={onDeleteStudentHandler}
       />
     </div>
@@ -109,10 +141,12 @@ export default StudentManagement;
     + Form trong ReactJS
     + Render tất cả những học sinh (DONE)
     + Thêm học sinh (với form) (DONE)
-    + Chức năng Delete học sinh (DONE
-    + Sắp xếp học sinh theo GPA Tăng dần
-    + Sắp xếp học sinh theo GPA Giảm dần
-    + Sắp xếp học sinh theo A -> Z
-    + Sắp xếp học sinh theo Z -> A
+    + Chức năng Delete học sinh (DONE)
+    + Sắp xếp học sinh theo GPA Tăng dần (DONE)
+    + Sắp xếp học sinh theo GPA Giảm dần(DONE)
+    + Sắp xếp học sinh theo A -> Z (DONE)
+    + Sắp xếp học sinh theo Z -> A (DONE)
     + Cập nhật học sinh (làm sau khi học bài useEffect)
+
+    Single source of truth
 */
