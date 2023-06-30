@@ -42,7 +42,7 @@ const StudentManagement = () => {
   // => Mảng student đã được sắp xếp dựa vào sortOption
   const sortStudentList = (studentList, sortOption) => {
     let sortedStudentList = [...studentList];
-    switch (sortOption) {
+    switch (+sortOption) {
       case FILTER_OPTIONS.GPA_ASCENDING: {
         sortedStudentList = studentList.sort(
           (studentA, studentB) =>
