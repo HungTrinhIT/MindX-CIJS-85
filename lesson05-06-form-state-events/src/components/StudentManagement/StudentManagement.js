@@ -10,7 +10,7 @@ import { FILTER_OPTIONS } from "../../utils/constants";
 
 const StudentManagement = () => {
   const [studentList, setStudentList] = useState(studentMockData);
-  const [sortOption, setSortOption] = useState("default");
+  const [sortOption, setSortOption] = useState(FILTER_OPTIONS.DEFAULT);
 
   const onAddStudentHandler = (student) => {
     const newStudent = {
