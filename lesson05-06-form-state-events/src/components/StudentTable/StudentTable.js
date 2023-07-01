@@ -8,6 +8,7 @@ const StudentTable = (props) => {
       <Student student={student} order={index} deleteStudent={deleteStudent} />
     );
   });
+  
   return (
     <div className="student-list">
       <table className="table">
