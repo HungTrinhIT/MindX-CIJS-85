@@ -149,4 +149,11 @@ export default StudentManagement;
     + Cập nhật học sinh (làm sau khi học bài useEffect)
 
     Single source of truth
+
+
+    A (state products [ ])
+      B
+        C
+          D
+            E
 */
