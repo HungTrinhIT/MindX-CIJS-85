@@ -1,14 +1,19 @@
 import Student from "../Student/Student";
 
 const StudentTable = (props) => {
-  const { studentList, deleteStudent } = props;
+  const { studentList, deleteStudent, selectEditingStudent } = props;
 
   const tableBody = studentList.map((student, index) => {
     return (
-      <Student student={student} order={index} deleteStudent={deleteStudent} />
+      <Student
+        student={student}
+        order={index}
+        deleteStudent={deleteStudent}
+        selectEditingStudent={selectEditingStudent}
+      />
     );
   });
-  
+
   return (
     <div className="student-list">
       <table className="table">

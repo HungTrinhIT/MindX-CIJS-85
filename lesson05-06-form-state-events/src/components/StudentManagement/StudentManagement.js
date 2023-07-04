@@ -2,7 +2,7 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import "./StudentManagement.css";
 import StudentTable from "../StudentTable/StudentTable";
-import AddNewStudent from "../AddNewStudent/AddNewStudent";
+import StudentForm from "../StudentForm/StudentForm";
 
 import "./StudentManagement.css";
 import { studentMockData } from "../../utils/mockData";
@@ -10,6 +10,8 @@ import { FILTER_OPTIONS } from "../../utils/constants";
 
 const StudentManagement = () => {
   const [studentList, setStudentList] = useState(studentMockData);
+  const [editingStudent, setEditingStudent] = useState({});
+
   const [sortOption, setSortOption] = useState(FILTER_OPTIONS.DEFAULT);
 
   const onAddStudentHandler = (student) => {
@@ -25,6 +27,20 @@ const StudentManagement = () => {
       (student) => student.id !== id
     );
     setStudentList(filteredStudentList);
+  };
+
+  const onSelectEditingStudent = (id) => {
+    const student = studentList.find((student) => student.id === id);
+    setEditingStudent(student);
+  };
+
+  const onUpdateStudent = (updatingStudent) => {
+    const updatingStudentIndex = studentList.findIndex(
+      (student) => student.id === updatingStudent.id
+    );
+    const clonedStudentList = [...studentList];
+    clonedStudentList[updatingStudentIndex] = updatingStudent;
+    setStudentList(clonedStudentList);
   };
 
   const onSortOptionsChange = (e) => {
@@ -85,7 +101,11 @@ const StudentManagement = () => {
   return (
     <div className="container">
       <h1 className="text-center">Dự án quản lý học sinh</h1>
-      <AddNewStudent addNewStudent={onAddStudentHandler} />
+      <StudentForm
+        addNewStudent={onAddStudentHandler}
+        updateStudent={onUpdateStudent}
+        initialValues={editingStudent}
+      />
       <div className="d-flex align-items-center justify-content-end gap-2 my-3">
         <select
           className="form-select filter-options"
@@ -102,6 +122,7 @@ const StudentManagement = () => {
       <StudentTable
         studentList={sortedStudentValues}
         deleteStudent={onDeleteStudentHandler}
+        selectEditingStudent={onSelectEditingStudent}
       />
     </div>
   );

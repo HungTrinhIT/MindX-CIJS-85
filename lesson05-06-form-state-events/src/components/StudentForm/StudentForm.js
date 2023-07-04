@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const initialState = {
   studentName: "",
@@ -8,8 +8,26 @@ const initialState = {
   chem: "",
 };
 
-const AddNewStudent = (props) => {
+const StudentForm = (props) => {
+  const { initialValues, addNewStudent, updateStudent } = props;
   const [student, setStudent] = useState(initialState);
+  const [formMode, setFormMode] = useState("add");
+
+  useEffect(() => {
+    const hasInitialValues =
+      initialValues.studentName &&
+      initialValues.classCode &&
+      initialValues.math &&
+      initialValues.phy &&
+      initialValues.chem;
+    if (hasInitialValues) {
+      setStudent({ ...initialValues });
+      setFormMode("update");
+    } else {
+      setStudent({ ...initialState });
+      setFormMode("add");
+    }
+  }, [initialValues]);
 
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
@@ -26,11 +44,16 @@ const AddNewStudent = (props) => {
 
     // Event up: Notify cái function ở component cha biết được
     // button con vừa được click
-    props.addNewStudent(student);
-
     // Sau khi thêm xong dữ liệu
     // Clear form
-    setStudent({ ...initialState });
+    if (formMode === "add") {
+      addNewStudent(student);
+      setStudent({ ...initialState });
+    } else {
+      updateStudent(student);
+      setFormMode("add");
+      setStudent({ ...initialState });
+    }
   };
 
   return (
@@ -104,11 +127,11 @@ const AddNewStudent = (props) => {
           </div>
         </div>
         <button className="btn btn-primary mt-3" type="submit">
-          Thêm mới học sinh
+          {formMode === "add" ? "Thêm mới học sinh" : "Cập nhật"}
         </button>
       </form>
     </div>
   );
 };
 
-export default AddNewStudent;
+export default StudentForm;
