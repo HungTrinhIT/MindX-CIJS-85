@@ -1,0 +1,9 @@
+.box {
+  padding: 80px;
+  border: 1px solid black;
+}
+
+.boxDark {
+  background-color: #000;
+  color: #fff;
+}
