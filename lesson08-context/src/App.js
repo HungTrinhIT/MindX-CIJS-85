@@ -21,6 +21,7 @@ function App() {
         value={{
           theme: theme,
           setTheme,
+          isAuth: true
         }}
       >
         <div className="App">
@@ -36,3 +37,4 @@ function App() {
 }
 
 export default App;
+// Kiết trúc Flux: react context + useReducer ~ Redux
