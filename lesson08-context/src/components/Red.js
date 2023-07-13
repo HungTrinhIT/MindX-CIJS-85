@@ -5,10 +5,10 @@ import ThemeContext from "../contexts/Theme/ThemeContext";
 const Red = () => {
   // Tạo connect đến store
   const myStore = useContext(MyStore);
-  const { theme } = useContext(ThemeContext);
+  const themeCtx = useContext(ThemeContext);
 
   // Conditional rendering
-  const classes = theme === "light" ? "box" : "boxDark";
+  const classes = themeCtx.theme === "light" ? "box" : "boxDark";
 
   return (
     <div className={classes}>
