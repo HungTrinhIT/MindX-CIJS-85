@@ -9,10 +9,14 @@ const initialState = {
 };
 
 const StudentForm = (props) => {
+  // Props
   const { initialValues, addNewStudent, updateStudent } = props;
+
+  // State & hooks
   const [student, setStudent] = useState(initialState);
   const [formMode, setFormMode] = useState("add");
 
+  // Effects
   useEffect(() => {
     const hasInitialValues =
       initialValues.studentName &&
@@ -29,6 +33,7 @@ const StudentForm = (props) => {
     }
   }, [initialValues]);
 
+  // Functions
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
 
@@ -55,6 +60,9 @@ const StudentForm = (props) => {
       setStudent({ ...initialState });
     }
   };
+
+  // Render JSX
+  
 
   return (
     <div className="my-3">

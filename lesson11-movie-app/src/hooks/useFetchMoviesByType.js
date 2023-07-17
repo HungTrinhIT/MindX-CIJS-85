@@ -1,25 +1,30 @@
 import { useEffect, useState } from "react";
+import APIServices from "../services/APIServices";
 
 /**
  * Custom hook
  * @param {movieType} movieType
  * @desc movieType is one of "popular" | "upcoming" | "top_rated"
  */
-const useFetchMovieByType = (movieType = "popular") => {
+const useFetchMovieByType = (movieType = "popular", isFetch = true) => {
+  // 1. Props
+
+  // 2. State & hooks
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({});
 
-  const onFetchMovie = () => {
-    const url = `https://api.themoviedb.org/3/movie/${movieType}?api_key=f5604f45a67acfff1cd1e7f5065da619`;
+  // 3. Effects
+  const onFetchMovie = async () => {
     setLoading(true);
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data.results);
-        setLoading(false);
-      })
-      .catch((error) => setError(error));
+    try {
+      const data = await APIServices.getMoviesByType(movieType);
+      setData(data.results);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {

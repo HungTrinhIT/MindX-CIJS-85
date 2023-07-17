@@ -7,8 +7,9 @@ const MovieCard = (props) => {
   const { title, poster_path, id } = data;
 
   const imageURL = `https://image.tmdb.org/t/p/original${poster_path}`;
+  const toMovieDetailPage = `/movies/${id}`;
   return (
-    <Link to={`/movies/${id}`} className="movie-card">
+    <Link to={toMovieDetailPage} className="movie-card">
       <div>
         <img src={imageURL} alt={title} />
         <h6>{title}</h6>
