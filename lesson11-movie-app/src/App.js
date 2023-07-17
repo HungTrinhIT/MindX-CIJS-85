@@ -9,7 +9,7 @@ import MovieDetail from "./pages/MovieDetail/MovieDetail";
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />

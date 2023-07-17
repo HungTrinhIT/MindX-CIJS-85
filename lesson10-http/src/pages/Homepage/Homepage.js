@@ -15,7 +15,7 @@ const Homepage = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("4. Update state")
+        console.log("4. Update state");
         setPopularMovies(data.results);
       });
   };
@@ -33,7 +33,7 @@ const Homepage = () => {
   return (
     <div className="container">
       {console.log("1.First render")}
-      <h1>Popular movies</h1>
+      <h1 className="section-title">Popular movies</h1>
       <div className="movie-list">{movieListElement}</div>
     </div>
   );
