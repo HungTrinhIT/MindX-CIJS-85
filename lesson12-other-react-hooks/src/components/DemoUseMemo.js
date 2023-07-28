@@ -1,8 +1,8 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useCallback } from "react";
+import TodoList from "./TodoList";
 
 const expensiveCalculateFunction = (count) => {
-  console.log("Calculating....");
-  for (let i = 0; i < 10000000000; i++) {
+  for (let i = 0; i < 1000000; i++) {
     count += 1;
   }
   return count;
@@ -12,11 +12,12 @@ const DemoUseMemo = () => {
   const [todos, setTodos] = useState([]);
   const [count, setCount] = useState(0);
 
-  const onAddTodo = () => {
+  const onAddTodo = useCallback(() => {
     setTodos((todos) => [...todos, "New todos"]);
-  };
+  }, [todos]);
 
   const onIncreaseCount = () => {
+    console.log("Increase count function runs");
     setCount((count) => count + 1);
   };
 
@@ -28,12 +29,7 @@ const DemoUseMemo = () => {
   return (
     <div>
       <h2>Todos</h2>
-      <ul>
-        {todos.map((t, index) => (
-          <li key={index}>{t}</li>
-        ))}
-      </ul>
-      <button onClick={onAddTodo}>Add new todos</button>
+      <TodoList todos={todos} onAddTodo={onAddTodo} />
       <hr />
       <h2>Counter</h2>
       <p>Count {count}</p>
@@ -44,3 +40,7 @@ const DemoUseMemo = () => {
 };
 
 export default DemoUseMemo;
+
+// (?) Có nên lạm dụng các hooks: useMemo, useCallback và React.memo() hay không?
+// setState React hooks (FC): replacing
+// setState Class Component (CC): merging
